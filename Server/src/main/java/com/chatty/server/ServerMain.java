@@ -7,16 +7,12 @@ import com.chatty.net.NetworkHandler;
 public class ServerMain {
     public static void main(String[] args) {
         // Setup Networking
-        NetworkHandler networking = new NetworkHandler(45557, 45558);
+        NetworkHandler networking = new NetworkHandler(45558);
         networking.startListener();
 
-        // While true, receive messages and print to terminal
-        while(true) {
-            Message message = networking.getMessage();
-            if(message != null){
-                String text = ((ChatMessage)message).getChat().getBody();
-                System.out.println(text);
-            }
-        }
+        // Start Message Handler
+        ServerMessageHandler handler = new ServerMessageHandler(networking);
+        handler.start();
+
     }
 }

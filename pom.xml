@@ -30,5 +30,10 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.fusesource.jansi</groupId>
+      <artifactId>jansi</artifactId>
+      <version>2.3.2</version>
+    </dependency>
   </dependencies>
 </project>
