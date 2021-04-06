@@ -16,4 +16,8 @@ public class Chat {
     public String getBody(){
         return body;
     }
+
+    public User getUser() {
+        return sender;
+    }
 }

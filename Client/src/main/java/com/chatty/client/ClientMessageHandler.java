@@ -4,6 +4,9 @@ import com.chatty.messages.ChatMessage;
 import com.chatty.messages.Message;
 import com.chatty.net.NetworkHandler;
 import com.chatty.util.Debug;
+import org.fusesource.jansi.Ansi;
+
+import static org.fusesource.jansi.Ansi.ansi;
 
 public class ClientMessageHandler implements Runnable {
     private NetworkHandler handler;
@@ -28,7 +31,16 @@ public class ClientMessageHandler implements Runnable {
     }
 
     public void handle(Message message) {
-        String text = ((ChatMessage)message).getChat().getBody();
-        System.out.println(text);
+        switch(message.getType()) {
+            case CHAT_MESSAGE:
+                handleChatMessage((ChatMessage)message);
+        }
+    }
+
+    public void handleChatMessage(ChatMessage m) {
+        System.out.println(ansi().fg(m.getChat().getUser().getColor())
+            .a("[" + m.getChat().getUser().getName() + "] ")
+            .fg(Ansi.Color.DEFAULT)
+            .a(m.getChat().getBody()));
     }
 }
