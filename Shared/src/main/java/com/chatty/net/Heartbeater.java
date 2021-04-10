@@ -1,25 +1,26 @@
 package com.chatty.net;
 
-import com.chatty.messages.Heartbeat;
+import com.chatty.messages.HeartbeatMessage;
 import com.chatty.util.Debug;
 
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+
 class Heartbeater implements Runnable {
-    private int heartbeatPort;
-    private int targetPort;
-    private String targetIp;
+    private InetSocketAddress localSocket;
+    private InetSocketAddress serverSocket;
     /** The rate (in seconds) at which heartbeats should be sent */
     public static int HEARTBEAT_INTERVAL = 15;
 
-    public Heartbeater(int heartbeatPort, int targetPort, String targetIp) {
-        this.heartbeatPort = heartbeatPort;
-        this.targetIp = targetIp;
-        this.targetPort = targetPort;
+    public Heartbeater(InetSocketAddress localSocket, InetSocketAddress serverSocket) {
+        this.localSocket = localSocket;
+        this.serverSocket = serverSocket;
     }
 
     @Override
     public void run() {
         while(true) {
-            NetworkHandler.sendMessage(new Heartbeat(heartbeatPort), targetIp, targetPort);
+            NetworkHandler.sendMessage(new HeartbeatMessage(localSocket), serverSocket);
             try {
                 Thread.sleep(HEARTBEAT_INTERVAL * 1000);
             } catch (InterruptedException e) {

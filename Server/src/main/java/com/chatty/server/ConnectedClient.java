@@ -1,18 +1,20 @@
 package com.chatty.server;
 
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 public class ConnectedClient {
-    private String ipAddress;
-    private int port;
+    private InetSocketAddress socketAddress;
     private LocalDateTime lastHeartbeat;
-    /** The length of time (in seconds) before a client is marked as timed out. */
+    /**
+     * The length of time (in seconds) before a client is marked as timed out.
+     */
     public static int CLIENT_TIMEOUT = 60;
 
-    public ConnectedClient(String ipAddress, int port){
-        this.ipAddress = ipAddress;
-        this.port = port;
+    public ConnectedClient(InetSocketAddress socketAddress) {
+        this.socketAddress = socketAddress;
         heartbeat();
     }
 
@@ -25,11 +27,13 @@ public class ConnectedClient {
         return difference > CLIENT_TIMEOUT;
     }
 
-    public String getIpAddress() {
-        return ipAddress;
+    public InetSocketAddress getSocketAddress() { return socketAddress; }
+
+    public InetAddress getIpAddress() {
+        return socketAddress.getAddress();
     }
 
     public int getPort() {
-        return port;
+        return socketAddress.getPort();
     }
 }

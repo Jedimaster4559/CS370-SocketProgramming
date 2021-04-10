@@ -29,10 +29,11 @@ class MessageReceiver implements Runnable {
             socket = serverSocket.accept();
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String message = in.readLine();
-            queue.addJson(message);
+            queue.addJson(message, socket.getInetAddress());
             socket.close();
         } catch (IOException e) {
-            Debug.error("An Exception Occurred: " + e.getStackTrace());
+            Debug.error("An Exception Occurred: ");
+            e.printStackTrace();
         }
     }
 

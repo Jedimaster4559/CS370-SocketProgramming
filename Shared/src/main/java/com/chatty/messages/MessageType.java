@@ -1,6 +1,9 @@
 package com.chatty.messages;
 
 public enum MessageType {
-    CHAT_MESSAGE,
-    HEARTBEAT
+    CHAT,
+    HEARTBEAT,
+    CLIENT_CONNECT,
+    CLIENT_DISCONNECT,
+    SERVER_COMMAND
 }
