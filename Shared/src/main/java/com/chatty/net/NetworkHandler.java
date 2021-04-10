@@ -61,14 +61,11 @@ public class NetworkHandler {
         String json = gson.toJson(message);
 
         try {
-            System.out.println(socketAddress);
             Socket socket = new Socket(socketAddress.getAddress(), socketAddress.getPort());
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             out.println(json);
         } catch (IOException e) {
             Debug.error("An Exception Occurred: " + e.getStackTrace());
-            System.out.println(message);
-            System.out.println(socketAddress);
             throw new RuntimeException(e);
         }
     }

@@ -1,7 +1,7 @@
 package com.chatty.util;
 
 public class Debug {
-    private static boolean enable = true;
+    private static boolean enable = false;
 
     public static void error(Object message){
         System.out.println(message);
