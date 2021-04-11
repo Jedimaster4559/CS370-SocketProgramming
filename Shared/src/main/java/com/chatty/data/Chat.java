@@ -16,7 +16,9 @@ public class Chat {
     public String getBody(){
         return body;
     }
-
+    /**
+     *The getUser method allows the sender variable to be accessed by other classes.
+     */
     public User getUser() {
         return sender;
     }
