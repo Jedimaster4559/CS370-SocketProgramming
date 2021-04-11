@@ -6,8 +6,8 @@ Maven can sometimes be a little tricky to get setup if it is your first time ins
 I suggest following these instructions since they are much better than the official instructions:
 [https://www.tutorialspoint.com/maven/maven_environment_setup.htm](https://www.tutorialspoint.com/maven/maven_environment_setup.htm)
 
-A note: I often skip step 5 when installing maven. It's not needed on all systems and I prefer
-to use the defaults so I don't have to go looking later.
+A note: I often skip step 5 when installing maven. It's not needed on all systems, and I prefer
+to use the defaults so that I don't have to go looking later.
 
 Once you have it installed, run `mvn --version` to ensure that installation and setup occurred successfully.
 

@@ -13,7 +13,7 @@ as simple to expand as possible.
 - Add a new case statement to `MessageDeserializer` using your new class you implemented.
   (Found in `com.chatty.messages`)
   
-A thing to consider. The serialization engine does not handle circular references well. If your
+Something to consider: The serialization engine does not handle circular references well. If your
 data types include any coupling, it's unlikely they are going to be able to be serialized into
 messages.  
 
