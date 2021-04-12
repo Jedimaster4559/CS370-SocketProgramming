@@ -1,6 +1,6 @@
 # Networking Overview
 This application is built using socket programming. Each of the three main components has
-a socket that is always open an listening for connections. Other applications can send messages
+a socket that is always open and listening for connections. Other applications can send messages
 to that listening port. Additionally, the listeners are designed in such a way that they are
 not blocking for the application as a whole. That means that these will run in the background
 forever.

@@ -6,7 +6,7 @@ public class ChatMessage extends Message{
     private Chat data;
 
     public ChatMessage(Chat body) {
-        this.type = MessageType.CHAT_MESSAGE;
+        this.type = MessageType.CHAT;
         this.data = body;
     }
 

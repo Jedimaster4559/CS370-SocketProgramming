@@ -13,7 +13,7 @@ See `docs/development_setup.md` for more information  on getting started.
 - Client: The client portion of the application. This is the part that most users will be using.
 - docs: General Documentation on pieces of this project
 - PublicServerList: An application that can be run on a server somewhere and will maintain an active
-  listing of all of the public server
+  listing of all of the public servers
 - Server: The server application responsible for managing all the different messages being sent.
 - Shared: Components that are shared by multiple other components of this system.
 

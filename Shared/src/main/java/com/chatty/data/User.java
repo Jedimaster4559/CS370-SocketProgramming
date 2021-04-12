@@ -11,10 +11,16 @@ public class User {
         this.color = color;
     }
 
+    /**
+     *The getName method allows the name variable to be accessed by other classes.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *The getColor method allows the color variable to be accessed by other classes.
+     */
     public Ansi.Color getColor() {
         return color;
     }

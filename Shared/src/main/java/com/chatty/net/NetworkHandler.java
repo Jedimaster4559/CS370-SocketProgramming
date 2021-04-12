@@ -3,15 +3,14 @@ package com.chatty.net;
 import com.chatty.messages.Message;
 import com.chatty.util.Debug;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.MalformedURLException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.URL;
 
 public class NetworkHandler {
     private MessageQueue queue;
@@ -21,9 +20,10 @@ public class NetworkHandler {
 
     /**
      * Creates a new networking handler. This starts a new message queue as part of this process.
+     *
      * @param receivePort The port to receive messages on
      */
-    public NetworkHandler(int receivePort){
+    public NetworkHandler(int receivePort) {
         queue = new MessageQueue();
         this.receivePort = receivePort;
         heartbeater = null;
@@ -39,8 +39,9 @@ public class NetworkHandler {
 
     /**
      * Gets the next message available if one has been received.
+     *
      * @return The next message that was received. If there are no
-     *         messages available, returns null.
+     * messages available, returns null.
      */
     public Message getMessage() {
         return queue.dequeue();
@@ -49,24 +50,29 @@ public class NetworkHandler {
     /**
      * Sends a message to another system. Right now this is only
      * the local system.
+     *
      * @param message The message to send
      */
-    public static void sendMessage(Message message, String ipAddress, int port) {
+    public static void sendMessage(Message message, InetSocketAddress socketAddress) {
         // Serialize Message
-        Gson gson = new Gson();
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(InetSocketAddress.class, new InetSocketAddressSerializer());
+        Gson gson = builder.create();
         String json = gson.toJson(message);
 
         try {
-            Socket socket = new Socket(ipAddress, port);
+            Socket socket = new Socket(socketAddress.getAddress(), socketAddress.getPort());
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             out.println(json);
         } catch (IOException e) {
             Debug.error("An Exception Occurred: " + e.getStackTrace());
+            throw new RuntimeException(e);
         }
     }
 
     /**
      * Finds a free port on the local system.
+     *
      * @return an available port to use for listening. Returns -1 if no available ports.
      */
     public static int getFreePort() {
@@ -81,9 +87,9 @@ public class NetworkHandler {
         return -1;
     }
 
-    public void startHeartbeatSession(String ip, int port) {
-        if(heartbeater == null) {
-            heartbeater = new Heartbeater(receivePort, port, ip);
+    public void startHeartbeatSession(InetSocketAddress localAddress, InetSocketAddress socketAddress) {
+        if (heartbeater == null) {
+            heartbeater = new Heartbeater(localAddress, socketAddress);
             heartbeater.start();
         }
     }

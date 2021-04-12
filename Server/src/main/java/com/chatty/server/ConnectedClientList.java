@@ -3,37 +3,35 @@ package com.chatty.server;
 import com.chatty.messages.Message;
 import com.chatty.net.NetworkHandler;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ConnectedClientList {
-    private ArrayList<ConnectedClient> clients = new ArrayList<>();
+    private List<ConnectedClient> clients = new ArrayList<>();
 
-    public void heartbeatClient(String ip, int port) {
-        for(ConnectedClient c : clients) {
-            if(c.getIpAddress().equals(ip) && c.getPort() == port) {
+    public void heartbeatClient(InetAddress socketAddress) {
+        if (null == socketAddress) {
+            throw new IllegalArgumentException("socketAddress was null");
+        }
+        for (ConnectedClient c : clients) {
+            if (c.getSocketAddress().equals(socketAddress)) {
                 c.heartbeat();
                 return;
             }
         }
-        clients.add(new ConnectedClient(ip, port));
+    }
+
+    public void addClient(ConnectedClient c) {
+        clients.add(c);
     }
 
     public void updateClients() {
-        ArrayList<ConnectedClient> toRemove = new ArrayList<>();
-
-        for(ConnectedClient c : clients) {
-            if(c.isExpired()){
-                toRemove.add(c);
-            }
-        }
-
-        clients.removeAll(toRemove);
-        toRemove.clear();
+        clients.removeIf(ConnectedClient::isExpired);
     }
 
     public void forwardToAll(Message m) {
-        for(ConnectedClient c : clients) {
-            NetworkHandler.sendMessage(m, c.getIpAddress(), c.getPort());
-        }
+        clients.stream()
+                .forEach(c -> NetworkHandler.sendMessage(m, c.getSocketAddress()));
     }
 }

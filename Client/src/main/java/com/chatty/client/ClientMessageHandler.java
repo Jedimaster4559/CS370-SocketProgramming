@@ -32,7 +32,7 @@ public class ClientMessageHandler implements Runnable {
 
     public void handle(Message message) {
         switch(message.getType()) {
-            case CHAT_MESSAGE:
+            case CHAT:
                 handleChatMessage((ChatMessage)message);
         }
     }
